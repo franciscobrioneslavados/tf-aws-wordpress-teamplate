@@ -13,7 +13,7 @@ resource "aws_eip" "linux-eip" {
 
 # Create EC2 Instance
 resource "aws_instance" "ec2_wordpress" {
-  ami                         = "ami-06640050dc3f556bb" #data.aws_ami.rhel_8_5.id #ami-06640050dc3f556bb (64-bit (x86)) Red Hat Enterprise Linux 8 (HVM), SSD Volume Type
+  ami                         = data.aws_ami.amazon_linux_2.id
   instance_type               = var.linux_instance_type
   subnet_id                   = aws_subnet.public-subnet.id
   vpc_security_group_ids      = [aws_security_group.aws-linux-sg.id]
@@ -66,11 +66,27 @@ resource "aws_security_group" "aws-linux-sg" {
   }
 
   ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow incoming HTTPS connections"
+  }
+
+  ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow incoming SSH connections"
+  }
+
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    description = "MySQL"
+    cidr_blocks = local.rds_cidr_blocks
   }
 
   egress {
@@ -100,13 +116,13 @@ resource "null_resource" "ec2_install_wordpress" {
     inline = [
       #"sudo yum update -y",
       "sudo yum install httpd wget zip -y",
-      "sudo yum install wget -y",
-      "sudo yum install zip -y",
       "sudo systemctl start httpd",
       "sudo systemctl enable httpd",
       "cd /var/www/html",
       "sudo wget https://wordpress.org/wordpress-5.7.2.zip",
-      "sudo unzip -xzf wordpress-5.7.2.zip",
+      "sudo unzip wordpress-5.7.2.zip",
+      "sudo mv -f wordpress/* ./",
+      "sudo rm -rf wordpress wordpress-5.7.2.zip",
     ]
   }
 

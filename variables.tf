@@ -58,14 +58,12 @@ variable "aws_az" {
 variable "vpc_cidr" {
   type        = string
   description = "CIDR for the VPC"
-  default     = "10.1.64.0/18"
 }
 
 # Subnet Variables
 variable "public_subnet_cidr" {
   type        = string
   description = "CIDR for the public subnet"
-  default     = "10.1.64.0/24"
 }
 
 
@@ -74,13 +72,13 @@ variable "public_subnet_cidr" {
 variable "linux_instance_type" {
   type        = string
   description = "EC2 instance type for Linux Server"
-  default     = "t1.micro" #t2.nano, t2.micro
+  # default     = "t1.micro" #t2.nano, t2.micro
 }
 
 variable "linux_associate_public_ip_address" {
   type        = bool
   description = "Associate a public IP address to the EC2 instance"
-  default     = true
+  # default     = true
 }
 
 variable "linux_root_volume_size" {
@@ -96,11 +94,11 @@ variable "linux_data_volume_size" {
 variable "linux_root_volume_type" {
   type        = string
   description = "Volumen type of root volumen of Linux Server. Can be standard, gp3, gp2, io1, sc1 or st1"
-  default     = "gp2"
+  #default     = "gp2"
 }
 
 variable "linux_data_volume_type" {
   type        = string
   description = "Volumen type of data volumen of Linux Server. Can be standard, gp3, gp2, io1, sc1 or st1"
-  default     = "gp2"
+  # default     = "gp2"
 }

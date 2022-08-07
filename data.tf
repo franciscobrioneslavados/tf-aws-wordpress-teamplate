@@ -2,6 +2,24 @@
 # Get latest RHEL AMI with Terraform #
 ######################################
 
+# Amazon Llinux 2 
+data "aws_ami" "amazon_linux_2" {
+ most_recent = true
+
+
+ filter {
+   name   = "owner-alias"
+   values = ["amazon"]
+ }
+
+
+ filter {
+   name   = "name"
+   values = ["amzn2-ami-hvm*"]
+ }
+}
+
+
 # RHEL 8.5
 data "aws_ami" "rhel_8_5" {
   most_recent = true
