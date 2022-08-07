@@ -35,5 +35,4 @@ terraform.rc
 
 .terraform.lock.hcl
 
-id_rsa
-id_rsa.pub
+*.pem
