@@ -31,13 +31,6 @@ variable "app_environment" {
   default     = ""
 }
 
-# AWS RDS
-variable "db_name" {
-  type        = string
-  description = "value"
-  default     = ""
-}
-
 variable "db_username" {
   type        = string
   description = "value"
@@ -92,9 +85,23 @@ variable "private_subnet_cidr_blocks" {
   ]
 }
 
-# Ec2 Variables
-variable "linux_instance_type" {
-  type        = string
-  description = "EC2 instance type for Linux Server"
-  default     = "t1.micro" #t2.nano, t2.micro
+# This variable contains the configuration
+# settings for the EC2 and RDS instances
+variable "settings" {
+  description = "Configuration settings"
+  type        = map(any)
+  default = {
+    "database" = {
+      allocated_storage   = 10             // storage in gigabytes
+      engine              = "mysql"        // engine type
+      engine_version      = "8.0.27"       // engine version
+      instance_class      = "db.t2.micro"  // rds instance type
+      db_name             = "db_wordpress" // database name
+      skip_final_snapshot = true
+    },
+    "web_app" = {
+      count         = 1          // the number of EC2 instances
+      instance_type = "t1.micro" // the EC2 instance
+    }
+  }
 }

@@ -14,7 +14,7 @@ terraform apply "tfplandev.out"
 ```
 
 ```
-terraform destroy "tfplandev.out"
+terraform destroy 
 ```
 
 
