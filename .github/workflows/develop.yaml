@@ -1,9 +1,9 @@
 name: Terraform Apply
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - develop
 
 jobs:
   terraform:
@@ -29,7 +29,7 @@ jobs:
         run: terraform init -input=false
 
       - name: Terraform validation
-        run: terraform validate -var-file=environment/test.tfvars
+        run: terraform validate
 
       - name: Terraform plan
         env:
@@ -41,16 +41,4 @@ jobs:
           db_name: db_wordpress
           db_username: terraform
           db_password: ${{ secrets.DB_PASSWORD }}
-        run: terraform plan -var-file=environment/test.tfvars
-
-      - name: Terraform apply
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-          app_name: tf_wordpress
-          app_environment: develop
-          db_name: db_wordpress
-          db_username: terraform
-          db_password: ${{ secrets.DB_PASSWORD }}
-        run: terraform apply -auto-approve -input=false -var-file=environment/test.tfvars
+        run: terraform plan

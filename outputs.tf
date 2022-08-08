@@ -1,7 +1,3 @@
-#####################################
-## Virtual Machine Module - Output ##
-#####################################
-
 output "vm_linux_server_ami_id" {
   value = data.aws_ami.amazon_linux_2.id
 }
@@ -15,19 +11,19 @@ output "vm_linux_server_ami_description" {
 }
 
 output "vm_linux_server_instance_id" {
-  value = aws_instance.ec2_wordpress.id
+  value = aws_instance.ec2_instance[0].id
 }
 
 output "vm_linux_server_instance_public_dns" {
-  value = aws_instance.ec2_wordpress.public_dns
+  value = aws_instance.ec2_instance[0].public_dns
 }
 
 output "vm_linux_server_instance_public_ip" {
-  value = aws_eip.linux-eip.public_ip
+  value = aws_eip.ec2_eip[0].public_ip
 }
 
 output "vm_linux_server_instance_private_ip" {
-  value = aws_instance.ec2_wordpress.private_ip
+  value = aws_instance.ec2_instance[0].private_ip
 }
 
 output "endpoint_rds" {
