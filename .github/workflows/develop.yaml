@@ -29,10 +29,15 @@ jobs:
         run: terraform init -input=false
 
       - name: Terraform validation
-        run: terraform validate -var-file=environment/test.tfvars
+        run: terraform validate
 
       - name: Terraform plan
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: terraform plan -var-file=environment/test.tfvars
+          app_name: tf_wordpress
+          app_environment: develop
+          db_name: db_wordpress
+          db_username: terraform
+          db_password: ${{ secrets.DB_PASSWORD }}
+        run: terraform plan
