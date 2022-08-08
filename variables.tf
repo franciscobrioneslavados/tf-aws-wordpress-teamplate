@@ -81,24 +81,3 @@ variable "linux_associate_public_ip_address" {
   # default     = true
 }
 
-variable "linux_root_volume_size" {
-  type        = number
-  description = "Volumen size of root volumen of Linux Server"
-}
-
-variable "linux_data_volume_size" {
-  type        = number
-  description = "Volumen size of data volumen of Linux Server"
-}
-
-variable "linux_root_volume_type" {
-  type        = string
-  description = "Volumen type of root volumen of Linux Server. Can be standard, gp3, gp2, io1, sc1 or st1"
-  #default     = "gp2"
-}
-
-variable "linux_data_volume_type" {
-  type        = string
-  description = "Volumen type of data volumen of Linux Server. Can be standard, gp3, gp2, io1, sc1 or st1"
-  # default     = "gp2"
-}
