@@ -4,11 +4,11 @@
 
 # Create Elastic IP for the EC2 instance
 resource "aws_eip" "ec2_eip" {
-  count    = 1
+  count    = var.settings.web_app.count
   instance = aws_instance.ec2_instance[count.index].id
   vpc      = true
   tags = {
-    Name        = "${lower(var.app_name)}-${var.app_environment}-linux-eip"
+    Name        = "${lower(var.app_name)}-${var.app_environment}-ec2-eip-${count.index}"
     Environment = var.app_environment
   }
 }
@@ -58,15 +58,15 @@ resource "aws_security_group" "ec2_sg" {
 
 # Create EC2 Instance
 resource "aws_instance" "ec2_instance" {
-  count                  = 1
+  count                  = var.settings.web_app.count
   ami                    = data.aws_ami.amazon_linux_2.id
-  instance_type          = var.linux_instance_type
+  instance_type          = var.settings.web_app.instance_type
   subnet_id              = aws_subnet.public_subnet[count.index].id
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   key_name               = aws_key_pair.key_pair.key_name
   user_data              = file("ec2_script.sh")
   tags = {
-    Name        = "${lower(var.app_name)}-${var.app_environment}-ec2_intance"
+    Name        = "${lower(var.app_name)}-${var.app_environment}-ec2_intance-${count.index}"
     Environment = var.app_environment
   }
 

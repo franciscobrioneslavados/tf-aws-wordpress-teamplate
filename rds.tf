@@ -23,19 +23,17 @@ resource "aws_security_group" "wp_db_sg" {
   }
 }
 
-
 resource "aws_db_instance" "db_wordpress" {
-  instance_class         = "db.t3.micro"
-  engine                 = "mysql"
-  engine_version         = "5.7"
-  publicly_accessible    = true
-  allocated_storage      = 20
-  db_name                = var.db_name
+  instance_class         = var.settings.database.instance_class
+  engine                 = var.settings.database.engine
+  engine_version         = var.settings.database.engine_version
+  allocated_storage      = var.settings.database.allocated_storage
+  db_name                = var.settings.database.db_name
   username               = var.db_username
   password               = var.db_password
+  skip_final_snapshot    = var.settings.database.skip_final_snapshot
   db_subnet_group_name   = aws_db_subnet_group.wp_db_subnet_group.id
   vpc_security_group_ids = [aws_security_group.wp_db_sg.id]
-  skip_final_snapshot    = true
   tags = {
     app = "wp_db_wordpress"
   }
