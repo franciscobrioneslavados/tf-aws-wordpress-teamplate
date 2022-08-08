@@ -6,14 +6,14 @@ on:
       - main
 
 jobs:
-  terraform_apply:
+  terraform:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Install Terraform
         env:
-          TERRAFORM_VERSION: "0.12.15"
+          TERRAFORM_VERSION: "0.14"
         run: |
           tf_version=$TERRAFORM_VERSION
           wget https://releases.hashicorp.com/terraform/"$tf_version"/terraform_"$tf_version"_linux_amd64.zip
