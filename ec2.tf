@@ -64,7 +64,7 @@ resource "aws_instance" "ec2_instance" {
   subnet_id              = aws_subnet.public_subnet[count.index].id
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   key_name               = aws_key_pair.key_pair.key_name
-  user_data              = file("ec2_script.sh") # no me funcionaaaaaa
+  user_data              = file("ec2_script.sh")
   tags = {
     Name        = "${lower(var.app_name)}-${var.app_environment}-ec2_intance"
     Environment = var.app_environment
