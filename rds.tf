@@ -3,24 +3,6 @@ resource "aws_db_subnet_group" "wp_db_subnet_group" {
   subnet_ids = [for subnet in aws_subnet.private_subnet : subnet.id]
 }
 
-resource "aws_db_instance" "db_wordpress" {
-
-  instance_class         = "db.t3.micro"
-  engine                 = "mysql"
-  engine_version         = "5.7"
-  publicly_accessible    = true
-  allocated_storage      = 20
-  db_name                = var.db_name
-  username               = var.db_username
-  password               = var.db_password
-  db_subnet_group_name   = aws_db_subnet_group.wp_db_subnet_group.id
-  vpc_security_group_ids = [aws_security_group.wp_db_sg.id]
-  tags = {
-    app = "wp_db_wordpress"
-  }
-}
-
-
 # Define the security group for the rds
 resource "aws_security_group" "wp_db_sg" {
   name        = "${lower(var.app_name)}-${var.app_environment}-rds-sg"
@@ -40,3 +22,23 @@ resource "aws_security_group" "wp_db_sg" {
     Environment = var.app_environment
   }
 }
+
+
+resource "aws_db_instance" "db_wordpress" {
+  instance_class         = "db.t3.micro"
+  engine                 = "mysql"
+  engine_version         = "5.7"
+  publicly_accessible    = true
+  allocated_storage      = 20
+  db_name                = var.db_name
+  username               = var.db_username
+  password               = var.db_password
+  db_subnet_group_name   = aws_db_subnet_group.wp_db_subnet_group.id
+  vpc_security_group_ids = [aws_security_group.wp_db_sg.id]
+  skip_final_snapshot    = true
+  tags = {
+    app = "wp_db_wordpress"
+  }
+}
+
+

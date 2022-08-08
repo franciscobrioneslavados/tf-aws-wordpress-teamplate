@@ -4,9 +4,9 @@
 
 # Create Elastic IP for the EC2 instance
 resource "aws_eip" "ec2_eip" {
-  count = 1
+  count    = 1
   instance = aws_instance.ec2_instance[count.index].id
-  vpc = true
+  vpc      = true
   tags = {
     Name        = "${lower(var.app_name)}-${var.app_environment}-linux-eip"
     Environment = var.app_environment
@@ -64,13 +64,14 @@ resource "aws_instance" "ec2_instance" {
   subnet_id              = aws_subnet.public_subnet[count.index].id
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   key_name               = aws_key_pair.key_pair.key_name
-
+  user_data              = file("ec2_script.sh") # no me funcionaaaaaa
   tags = {
     Name        = "${lower(var.app_name)}-${var.app_environment}-ec2_intance"
     Environment = var.app_environment
   }
-}
 
+}
+/* 
 resource "null_resource" "ec2_install_wordpress" {
   count = 1
   depends_on = [
@@ -120,4 +121,4 @@ resource "null_resource" "ec2_config_wordpress" {
     ]
   }
 
-}
+} */

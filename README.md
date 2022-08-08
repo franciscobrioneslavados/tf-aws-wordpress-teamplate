@@ -6,15 +6,15 @@ terraform init
 ```
 
 ```
-terraform plan -var-file=environment/test.tfvars
+terraform plan -out tfplandev.out -var-file=environment/test.tfvars
 ```
 
 ```
-terraform apply --auto-approve -var-file=environment/test.tfvars
+terraform apply "tfplandev.out"
 ```
 
 ```
-terraform destroy --auto-approve -var-file=environment/test.tfvars
+terraform destroy "tfplandev.out"
 ```
 
 
