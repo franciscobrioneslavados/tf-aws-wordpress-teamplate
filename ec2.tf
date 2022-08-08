@@ -4,6 +4,8 @@
 
 # Create Elastic IP for the EC2 instance
 resource "aws_eip" "ec2_eip" {
+  count = 1
+  instance = aws_instance.ec2_instance[count.index].id
   vpc = true
   tags = {
     Name        = "${lower(var.app_name)}-${var.app_environment}-linux-eip"
@@ -57,11 +59,11 @@ resource "aws_security_group" "ec2_sg" {
 # Create EC2 Instance
 resource "aws_instance" "ec2_instance" {
   count                  = 1
-  ami                         = data.aws_ami.amazon_linux_2.id
-  instance_type               = var.linux_instance_type
-  subnet_id                   = aws_subnet.public_subnet[count.index].id
-  vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
-  key_name                    = aws_key_pair.key_pair.key_name
+  ami                    = data.aws_ami.amazon_linux_2.id
+  instance_type          = var.linux_instance_type
+  subnet_id              = aws_subnet.public_subnet[count.index].id
+  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+  key_name               = aws_key_pair.key_pair.key_name
 
   tags = {
     Name        = "${lower(var.app_name)}-${var.app_environment}-ec2_intance"
@@ -69,9 +71,8 @@ resource "aws_instance" "ec2_instance" {
   }
 }
 
-
-
 resource "null_resource" "ec2_install_wordpress" {
+  count = 1
   depends_on = [
     aws_instance.ec2_instance
   ]
@@ -79,7 +80,7 @@ resource "null_resource" "ec2_install_wordpress" {
     type        = "ssh"
     user        = "ec2-user"
     private_key = file("${aws_key_pair.key_pair.key_name}.pem")
-    host        = aws_eip.ec2_eip.public_ip
+    host        = aws_eip.ec2_eip[count.index].public_ip
   }
   provisioner "remote-exec" {
     inline = [
@@ -98,6 +99,7 @@ resource "null_resource" "ec2_install_wordpress" {
 }
 
 resource "null_resource" "ec2_config_wordpress" {
+  count = 1
   depends_on = [
     null_resource.ec2_install_wordpress
   ]
@@ -105,7 +107,7 @@ resource "null_resource" "ec2_config_wordpress" {
     type        = "ssh"
     user        = "ec2-user"
     private_key = file("${aws_key_pair.key_pair.key_name}.pem")
-    host        = aws_eip.ec2_eip.public_ip
+    host        = aws_eip.ec2_eip[count.index].public_ip
 
   }
   provisioner "remote-exec" {
