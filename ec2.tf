@@ -81,14 +81,6 @@ resource "aws_security_group" "aws-linux-sg" {
     description = "Allow incoming SSH connections"
   }
 
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    description = "MySQL"
-    cidr_blocks = local.rds_cidr_blocks
-  }
-
   egress {
     from_port   = 0
     to_port     = 0

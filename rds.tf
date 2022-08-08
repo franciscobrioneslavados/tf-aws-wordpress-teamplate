@@ -2,7 +2,7 @@ resource "aws_db_instance" "db_wordpress" {
 
   instance_class      = "db.t3.micro"
   engine              = "mysql"
-  engine_version       = "5.7"
+  engine_version      = "5.7"
   publicly_accessible = true
   allocated_storage   = 20
   db_name             = var.db_name
@@ -23,10 +23,10 @@ resource "aws_security_group" "aws-rds-sg" {
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
-    from_port   = var.port
-    to_port     = var.port
+    from_port   = 3306
+    to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = var.sg_ingress_cidr_block
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
