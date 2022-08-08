@@ -35,7 +35,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          region: us-east-1
+          AWS_REGION: us-east-1
           app_name: tf_wordpress
           app_environment: develop
           db_name: db_wordpress
