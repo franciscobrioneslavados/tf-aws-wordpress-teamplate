@@ -31,7 +31,6 @@ variable "app_environment" {
   default     = ""
 }
 
-
 # AWS RDS
 variable "db_name" {
   type        = string

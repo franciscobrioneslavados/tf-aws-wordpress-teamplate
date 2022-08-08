@@ -32,7 +32,7 @@ resource "aws_security_group" "wp_db_sg" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = [aws_security_group.wp_db_sg.id]
+    security_groups = [aws_security_group.ec2_sg.id]
   }
 
   tags = {

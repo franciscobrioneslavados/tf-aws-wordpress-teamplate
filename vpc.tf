@@ -22,7 +22,7 @@ resource "aws_subnet" "public_subnet" {
   count             = var.subnet_count.public
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.public_subnet_cidr_blocks[count.index]
-  availability_zone = data.aws_availability_zones.availabe[count.index]
+  availability_zone = data.aws_availability_zones.availabe.names[count.index]
   tags = {
     Name        = "${lower(var.app_name)}-${lower(var.app_environment)}-public-subnet_${count.index}"
     Environment = var.app_environment
@@ -34,7 +34,7 @@ resource "aws_subnet" "private_subnet" {
   count             = var.subnet_count.private
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.private_subnet_cidr_blocks[count.index]
-  availability_zone = data.aws_availability_zones.availabe[count.index]
+  availability_zone = data.aws_availability_zones.availabe.names[count.index]
   tags = {
     Name        = "${lower(var.app_name)}-${lower(var.app_environment)}-private-subnet_${count.index}"
     Environment = var.app_environment
