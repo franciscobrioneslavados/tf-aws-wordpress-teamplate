@@ -25,3 +25,5 @@ chmod 400 <file_name>.pem
 ```
 ssh -i "<file_name>.pem" ec2-user@<public_dns>
 ```
+
+#
